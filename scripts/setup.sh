@@ -103,11 +103,19 @@ install_gui_tools() {
   brew_cask keeweb
 }
 
+install_leiningen_profile() {
+  if [ ! -d "$HOME/.lein" ]; then
+    mkdir "$HOME/.lein"
+    cp "$SCRIPT_DIR/../resources/leiningen/profiles.clj" "$HOME/.lein"
+  fi
+}
+
 install_jvm() {
   brew_install java
   brew_install jenv
   brew_install clojure
   brew_install leiningen
+  install_leiningen_profile
 }
 
 install_others() {
