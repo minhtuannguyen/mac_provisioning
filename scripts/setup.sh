@@ -2,8 +2,11 @@
 set -e
 set -x
 
-SCRIPT_DIR="$(cd $(dirname "$0") ; pwd -P)"
-
+SCRIPT_DIR="$(
+  cd $(dirname "$0")
+  pwd -P
+)"
+carrier_pigeon="minhtuannguyen2704@gmail.com"
 
 brew_install() {
   brew list "$1" || brew install "$1"
@@ -40,14 +43,19 @@ setup_git_config() {
   if [ ! -f "$HOME/.gitconfig" ]; then
     echo "Info   | Setup   | git config"
     git config --global init.defaultBranch master
-    git config --global user.email "minhtuannguyen2704@gmail.com"
+    git config --global user.email "$carrier_pigeon"
     git config --global user.name "Minh Tuan Nguyen"
   fi
 }
 
 setup_ssh_config() {
   if [ ! -d "$HOME/.ssh" ]; then
-    echo "hey $SCRIPT_DIR"
+    mkdir "$HOME/.ssh"
+    cp "$SCRIPT_DIR/../resources/ssh/config" "$HOME/.ssh/config"
+    cd "$HOME/.ssh"
+    ssh-keygen -t ed25519 -C "$carrier_pigeon" -f id_rsa_github_private
+    ssh-keygen -t ed25519 -C "$carrier_pigeon" -f id_rsa_github_work
+    cd -
   fi
 }
 
@@ -119,10 +127,10 @@ install_aws_tools() {
 }
 
 install_git() {
-  #brew_install git
-  #brew_install tig
-  #setup_git_config
-
+  brew_install git
+  brew_install tig
+  brew_install openssh
+  setup_git_config
   setup_ssh_config
 }
 
