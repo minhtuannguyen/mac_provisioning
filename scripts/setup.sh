@@ -8,6 +8,10 @@ SCRIPT_DIR="$(
 )"
 carrier_pigeon="minhtuannguyen2704@gmail.com"
 
+find_str_in_zshrc() {
+  grep "$1" <.zshrc
+}
+
 brew_install() {
   brew list "$1" || brew install "$1"
 }
@@ -111,9 +115,20 @@ install_leiningen_profile() {
   fi
 }
 
+set_jdk_path() {
+  if [[ ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
+    echo 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"' >>"$HOME/.zshrc"
+    jenv add /usr/local/opt/openjdk@11/
+  fi
+}
+
 install_jvm() {
-  brew_install java
+  #java
+  brew_install openjdk@11
   brew_install jenv
+  set_jdk_path
+
+  #clojure
   brew_install clojure
   brew_install leiningen
   install_leiningen_profile
@@ -127,6 +142,7 @@ install_others() {
   brew_install node
   brew_install htop
   brew_install the_silver_searcher
+  brew_install docker
 }
 
 install_aws_tools() {
@@ -151,6 +167,13 @@ install_git() {
   setup_ssh_config
 }
 
+instal_fzf() {
+  if [[ ! "$(find_str_in_zshrc fzf.zsh)" ]]; then
+    brew_install fzf
+    $(brew --prefix)/opt/fzf/install
+  fi
+}
+
 install_zsh_tools() {
   install_ohmyzsh
   install_antigen
@@ -159,11 +182,7 @@ install_zsh_tools() {
   install_zsh_plugin zsh-users zsh-syntax-highlighting
   install_zsh_plugin chrissicool zsh-256color
   install_zsh_plugin joel-porquet zsh-dircolors-solarized
-  brew_install fzf
-
-  if [[ ! "$(cat $HOME/.zshrc | grep fzf.zsh)" ]]; then
-    $(brew --prefix)/opt/fzf/install
-  fi
+  instal_fzf
 }
 
 install_tmux_plugins_manager() {
