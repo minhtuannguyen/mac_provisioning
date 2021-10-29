@@ -126,7 +126,7 @@ install_others() {
   brew_install vim
   brew_install node
   brew_install htop
-  brew_install fzf
+  brew_install the_silver_searcher
 }
 
 install_aws_tools() {
@@ -159,6 +159,11 @@ install_zsh_tools() {
   install_zsh_plugin zsh-users zsh-syntax-highlighting
   install_zsh_plugin chrissicool zsh-256color
   install_zsh_plugin joel-porquet zsh-dircolors-solarized
+  brew_install fzf
+
+  if [[ ! "$(cat $HOME/.zshrc | grep fzf.zsh)" ]]; then
+    $(brew --prefix)/opt/fzf/install
+  fi
 }
 
 install_tmux_plugins_manager() {
@@ -179,23 +184,22 @@ install_tmux_tools() {
 
 # Download and install Command Line Tools
 if [[ ! -x /usr/bin/gcc ]]; then
-  echo "Info   | Install   | xcode"
   xcode-select --install
 fi
 
 # Download and install Homebrew
 if [[ ! -x /usr/local/bin/brew ]]; then
-  echo "Info   | Install   | homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-install_python
 install_others
+install_python
 install_git
 install_aws_tools
 install_yubikey_tools
 install_jvm
 install_remote_config
-install_gui_tools
 install_zsh_tools
 install_tmux_tools
+
+install_gui_tools
