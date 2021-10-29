@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ykman oath accounts code | grep -i "$1" | awk '{printf "%s", $NF}' | tee >(pbcopy)
