@@ -85,7 +85,7 @@ install_python() {
 }
 
 install_gui_tools() {
-  #brew_cask docker
+  brew_cask docker
   brew_cask coconutbattery
   brew_cask iterm2
   brew_cask firefox
