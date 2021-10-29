@@ -98,6 +98,7 @@ install_gui_tools() {
   brew_cask firefox
   brew_cask spotify
   brew_cask intellij-idea
+  brew_cask intellij-idea-ce
   brew_cask pycharm-ce
   brew_cask lulu
   brew_cask keeweb
