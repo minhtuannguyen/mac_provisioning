@@ -42,7 +42,7 @@ install_zsh_plugin() {
 setup_git_config() {
   if [ ! -f "$HOME/.gitconfig" ]; then
     echo "Info   | Setup   | git config"
-    git config --global init.defaultBranch master
+    git config --global init.defaultBranch main
     git config --global user.email "$carrier_pigeon"
     git config --global user.name "Minh Tuan Nguyen"
   fi

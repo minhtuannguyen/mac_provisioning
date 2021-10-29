@@ -1,9 +1,9 @@
 Host github.com
     HostName github.com
     User git
-    IdentifyFile ~/.ssh/id_rsa_github_private
+    IdentityFile ~/.ssh/id_rsa_github_private
 
 Host github_work
     HostName github.com
     User git
-    IdentifyFile ~/.ssh/id_rsa_github_work
+    IdentityFile ~/.ssh/id_rsa_github_work
