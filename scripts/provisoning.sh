@@ -16,10 +16,6 @@ brew_install() {
   brew list "$1" || brew install "$1"
 }
 
-#install a certain version of the software and stick to it
-brew_install_version() {
-  brew list "$1" || brew install "$1@$2" && brew pin "$1@$2"
-}
 brew_cask() {
   brew list --cask "$1" || brew install --cask "$1"
 }
@@ -72,7 +68,7 @@ install_antigen() {
 
 install_swamp() {
   if [[ ! -x /usr/local/bin/swamp ]]; then
-    curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" > /usr/local/bin/swamp
+    curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
     chmod +x /usr/local/bin/swamp
   fi
 }
@@ -142,10 +138,22 @@ install_others() {
   install_vim_config
 }
 
+install_rust() {
+  brew_install rustup
+  if [[ ! -f "$HOME/.cargo/bin/cargo" ]]; then
+    curl https://sh.rustup.rs -sSf | sh
+  fi
+}
+
 install_aws_tools() {
   install_terraform
-  brew_install awscli
   install_swamp
+
+  #awscli
+  brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
+  if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
+    echo 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"' >>~/.zshrc
+  fi
 }
 
 install_yubikey_tools() {
@@ -233,7 +241,7 @@ install_python
 install_git
 install_zsh_tools
 install_tmux_tools
-
+install_rust
 install_yubikey_tools
 install_aws_tools
 install_jvm
