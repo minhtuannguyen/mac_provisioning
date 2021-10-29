@@ -4,5 +4,4 @@
    2. Applications in terminal may access to clipboard
 2. add ssh public key
 3. import iterm2 profile
-
-    
+4. import colour scheme idea
