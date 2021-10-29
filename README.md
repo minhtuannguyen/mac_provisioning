@@ -3,6 +3,6 @@
    1. copy to pasteboard on selection
    2. Applications in terminal may access to clipboard
 2. add ssh public key
-3. 
+3. import iterm2 profile
 
     

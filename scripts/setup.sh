@@ -134,6 +134,14 @@ install_aws_tools() {
   install_swamp
 }
 
+install_yubikey_tools() {
+  brew_install ykman
+
+  if [[ ! -x /usr/local/bin/lmfa ]]; then
+    cp "$SCRIPT_DIR/../resources/yubikey/lmfa" /usr/local/bin/lmfa
+  fi
+}
+
 install_git() {
   brew_install git
   brew_install tig
@@ -184,6 +192,7 @@ install_python
 install_others
 install_git
 install_aws_tools
+install_yubikey_tools
 install_jvm
 install_remote_config
 install_gui_tools
