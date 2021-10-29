@@ -1,5 +1,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="/usr/local/sbin:$PATH"
+export LEIN_USE_BOOTCLASSPATH=no
+
 setopt RM_STAR_WAIT
 ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
@@ -9,6 +11,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
 
 plugins=(
+    zsh-z
 	zsh-completions
 	zsh-autosuggestions
 	brew

@@ -70,15 +70,9 @@ install_antigen() {
   fi
 }
 
-download_remote_config() {
-  if [ ! -f "$HOME/$1" ]; then
-    curl -s "https://raw.githubusercontent.com/minhtuannguyen/$1/master/$1" >"$1"
-  fi
-}
-
 install_swamp() {
   if [[ ! -x /usr/local/bin/swamp ]]; then
-    curl -s "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
+    curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" > /usr/local/bin/swamp
     chmod +x /usr/local/bin/swamp
   fi
 }
@@ -91,7 +85,7 @@ install_python() {
 }
 
 install_gui_tools() {
-  brew_cask docker
+  #brew_cask docker
   brew_cask coconutbattery
   brew_cask iterm2
   brew_cask firefox
@@ -142,6 +136,7 @@ install_others() {
   brew_install node
   brew_install htop
   brew_install the_silver_searcher
+  brew_install postgresql
 
   brew_install vim
   install_vim_config
@@ -179,7 +174,10 @@ install_fzf() {
 install_zsh_config() {
   if [ ! -f "$HOME/.zshrc" ]; then
     cp "$SCRIPT_DIR/../resources/zsh/.zshrc" "$HOME/.zshrc"
-    mdkir -p "$HOME/.config/zsh/custom_config/"
+  fi
+
+  if [ ! -d "$HOME/.config/zsh/custom_config/" ]; then
+    mkdir -p "$HOME/.config/zsh/custom_config/"
   fi
 }
 
@@ -192,6 +190,8 @@ install_zsh_tools() {
   install_zsh_plugin zsh-users zsh-syntax-highlighting
   install_zsh_plugin chrissicool zsh-256color
   install_zsh_plugin joel-porquet zsh-dircolors-solarized
+  install_zsh_plugin agkozak zsh-z
+
   install_fzf
 }
 
