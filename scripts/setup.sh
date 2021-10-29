@@ -172,12 +172,12 @@ if [[ ! -x /usr/local/bin/brew ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-#install_python
-#install_others
+install_python
+install_others
 install_git
-#install_aws_tools
-#install_jvm
-#install_remote_config
-#install_gui_tools
-#install_zsh_tools
-#install_tmux_tools
+install_aws_tools
+install_jvm
+install_remote_config
+install_gui_tools
+install_zsh_tools
+install_tmux_tools
