@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 set -e
 set -x
 
@@ -10,7 +10,7 @@ SCRIPT_DIR="$(
 carrier_pigeon="minhtuannguyen2704@gmail.com"
 
 find_str_in_zshrc() {
-  grep "$1" <.zshrc
+  grep "$1" <"$HOME/.zshrc"
 }
 
 append_zshrc() {
@@ -50,7 +50,7 @@ setup_ohmyzsh_config() {
   append_zshrc 'COMPLETION_WAITING_DOTS="true"'
   append_zshrc 'autoload -U compinit && compinit'
 
-  #custom config
+  #add custom config
   if [[ ! "$(find_str_in_zshrc ___CUSTOM ZSH___)" ]]; then
     read_resource_content zsh/.custom_zshrc >>"$HOME/.zshrc"
   fi
@@ -171,6 +171,7 @@ install_essential_tools() {
   brew_install the_silver_searcher
   brew_install postgresql
   brew_install mas
+  brew_install shellcheck
 }
 
 install_rust() {
@@ -209,8 +210,8 @@ install_git() {
 }
 
 install_fzf_plugin() {
+  brew_install fzf
   if [[ ! "$(find_str_in_zshrc fzf.zsh)" ]]; then
-    brew_install fzf
     $(brew --prefix)/opt/fzf/install
   fi
 }
@@ -288,9 +289,15 @@ install_languages() {
   install_jvm
 }
 
+install_mas() {
+  if [[ ! "$(mas list | grep $1)" ]]; then
+    mas install "$1"
+  fi
+}
+
 install_from_appstore() {
   #Magnet
-  mas install 441258766
+  install_mas 441258766
 }
 
 ############################ START ####################################
