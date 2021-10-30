@@ -278,7 +278,8 @@ install_xcode() {
 
 install_home_brew() {
   # Download and install Homebrew
-  if [[ ! -x /usr/local/bin/brew ]]; then
+  if ! command -v brew &> /dev/null
+  then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }
