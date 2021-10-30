@@ -1,7 +1,7 @@
 # Motivation
 
 I spent a significant amount of time setting up the machine everytime I get a new one. `Time Machine` did help me a lot
-in the past. But with time the system get filled with junk.
+in the past. But with time the system still gets filled with junk.
 
 There are many open-source projects out there for provisioning a new mac, but I didn't trust them much. So instead of
 diving deeply in those codes, I prefer to write this script on my own. This script just does the following tasks:
@@ -29,15 +29,15 @@ diving deeply in those codes, I prefer to write this script on my own. This scri
 
 # Manual steps
 
-However, there are a few manual step:
+However, there are a few manual steps to do:
 
-- Setup keyboard, trackpad options in the setting
+- Setup keyboard, trackpad options in the system preferences
 - Map Caps Lock to escape
-- iterm2
+- **iterm2**
     - copy on selection:
         - General -> Selection
             - copy to pasteboard on selection
             - Applications in terminal may access to clipboard
     - import the profile to iterm2
-- import the colour scheme for idea
+- import the color scheme for idea
 - import ssh public key for Git
