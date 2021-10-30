@@ -14,7 +14,7 @@ find_str_in_zshrc() {
 }
 
 append_zshrc() {
-  echo "\n$1" >>"$HOME/.zshrc"
+  printf "\n%s\n" "$1" >>"$HOME/.zshrc"
 }
 
 brew_install() {
