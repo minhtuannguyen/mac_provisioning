@@ -166,9 +166,11 @@ install_essential_tools() {
   brew_install node
   brew_install htop
   brew_install watch
+  brew_install tree
   brew_install tldr
   brew_install the_silver_searcher
   brew_install postgresql
+  brew_install mas
 }
 
 install_rust() {
@@ -286,6 +288,11 @@ install_languages() {
   install_jvm
 }
 
+install_from_appstore() {
+  #Magnet
+  mas install 441258766
+}
+
 ############################ START ####################################
 #
 install_xcode
@@ -309,3 +316,6 @@ install_aws_tools
 
 ###
 install_gui_tools
+
+##Appstore
+install_from_appstore
