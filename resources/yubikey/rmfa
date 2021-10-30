@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ssh remote_mfa ykman oath code  | awk '{printf "%s", $NF}' | pbcopy

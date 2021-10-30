@@ -42,15 +42,14 @@ fi
 antigen apply
 autoload -U compinit && compinit
 
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 alias pullall=' find . -maxdepth 3 -name .git -type d | rev | cut -c 6- | rev | xargs -I {} sh -c  "echo \"\n\" {} \"\n\"; git -C {} pull"'
 alias git='LANG=en_US.UTF-8 git'
-alias brewcleanup='brew prune; brew cleanup -s; brew doctor; brew cleanup; brew missing'
+alias brew_cleanup='brew prune; brew cleanup -s; brew doctor; brew cleanup; brew missing'
+alias ssh_backup='rsync --numeric-ids -avze ssh "$BACKUP_PATH_LOCAL" "$BACKUP_PATH_REMOTE"'
 
-eval "$(jenv init -)"
 
-#custom config
+#load custom config
 for conf in "$HOME/.config/zsh/custom_config/"*.zsh; do
   source "${conf}"
 done

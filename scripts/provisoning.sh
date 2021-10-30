@@ -78,6 +78,10 @@ install_swamp() {
 install_python() {
   brew_install python
   brew_install pyenv
+
+  if [[ ! "$(find_str_in_zshrc pyenv)" ]]; then
+    echo 'eval "$(pyenv init -)"' >>"$HOME/.zshrc"
+  fi
 }
 
 install_gui_tools() {
@@ -91,6 +95,7 @@ install_gui_tools() {
   brew_cask pycharm-ce
   brew_cask lulu
   brew_cask keeweb
+  brew_cask zoom
 }
 
 install_leiningen_profile() {
@@ -103,14 +108,21 @@ install_leiningen_profile() {
 set_jdk_path() {
   if [[ ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
     echo 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"' >>"$HOME/.zshrc"
-    jenv add /usr/local/opt/openjdk@11/
+  fi
+}
+
+install_jenv() {
+  brew_install jenv
+  jenv add /usr/local/opt/openjdk@11/
+  if [[ ! "$(find_str_in_zshrc jenv)" ]]; then
+    echo 'eval "$(jenv init -)"' >>"$HOME/.zshrc"
   fi
 }
 
 install_jvm() {
   #java
   brew_install openjdk@11
-  brew_install jenv
+  install_jenv
   set_jdk_path
 
   #clojure
@@ -152,7 +164,7 @@ install_aws_tools() {
   #awscli
   brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
   if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
-    echo 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"' >>~/.zshrc
+    echo 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"' >>"$HOME/.zshrc"
   fi
 }
 
@@ -205,7 +217,7 @@ install_zsh_tools() {
 
 install_tmux_plugins_manager() {
   if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
   fi
 }
 
