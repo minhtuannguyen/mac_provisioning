@@ -13,6 +13,10 @@ find_str_in_zshrc() {
   grep "$1" <.zshrc
 }
 
+append_zshrc() {
+  echo "$1" >>"$HOME/.zshrc"
+}
+
 brew_install() {
   brew list "$1" || brew install "$1"
 }
@@ -81,7 +85,7 @@ install_python() {
   brew_install pyenv
 
   if [[ ! "$(find_str_in_zshrc pyenv)" ]]; then
-    echo 'eval "$(pyenv init -)"' >>"$HOME/.zshrc"
+    append_zshrc 'eval "$(pyenv init -)"'
   fi
 }
 
@@ -99,16 +103,22 @@ install_gui_tools() {
   brew_cask zoom
 }
 
-install_leiningen_profile() {
+install_leiningen() {
+  brew_install leiningen
+
   if [ ! -d "$HOME/.lein" ]; then
     mkdir "$HOME/.lein"
     cp "$SCRIPT_DIR/../resources/leiningen/profiles.clj" "$HOME/.lein"
+  fi
+
+  if [[ ! "$(find_str_in_zshrc LEIN_USE_BOOTCLASSPATH)" ]]; then
+    append_zshrc 'export LEIN_USE_BOOTCLASSPATH=no'
   fi
 }
 
 set_jdk_path() {
   if [[ ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
-    echo 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"' >>"$HOME/.zshrc"
+    append_zshrc 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"'
   fi
 }
 
@@ -116,7 +126,7 @@ install_jenv() {
   brew_install jenv
   jenv add /usr/local/opt/openjdk@11/
   if [[ ! "$(find_str_in_zshrc jenv)" ]]; then
-    echo 'eval "$(jenv init -)"' >>"$HOME/.zshrc"
+    append_zshrc 'eval "$(jenv init -)"'
   fi
 }
 
@@ -128,8 +138,7 @@ install_jvm() {
 
   #clojure
   brew_install clojure
-  brew_install leiningen
-  install_leiningen_profile
+  install_leiningen
 }
 
 install_vim() {
@@ -165,7 +174,7 @@ install_aws_tools() {
   #awscli
   brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
   if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
-    echo 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"' >>"$HOME/.zshrc"
+    append_zshrc 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"'
   fi
 }
 
@@ -284,4 +293,4 @@ install_yubikey_tools
 install_aws_tools
 
 ###
-install_gui_tools
+#install_gui_tools

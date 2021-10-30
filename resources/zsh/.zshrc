@@ -1,15 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="/usr/local/sbin:$PATH"
-export LEIN_USE_BOOTCLASSPATH=no
-
-setopt RM_STAR_WAIT
 ZSH_THEME="robbyrussell"
-COMPLETION_WAITING_DOTS="true"
-
-source "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
-
+#plugins=(git)
 plugins=(
     zsh-z
 	zsh-completions
@@ -31,6 +22,18 @@ plugins=(
 	fzf
 )
 source $ZSH/oh-my-zsh.sh
+
+#########
+
+export PATH="/usr/local/sbin:$PATH"
+
+setopt RM_STAR_WAIT
+COMPLETION_WAITING_DOTS="true"
+
+source "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
+
 
 #antigen
 source "$HOME/.antigen/antigen.zsh"
