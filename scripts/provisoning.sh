@@ -67,6 +67,7 @@ setup_git_config() {
     git config --global init.defaultBranch main
     git config --global user.email "$carrier_pigeon"
     git config --global user.name "Minh Tuan Nguyen"
+    git config --global pull.rebase true
   fi
 }
 
