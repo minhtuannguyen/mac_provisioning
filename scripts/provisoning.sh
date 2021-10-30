@@ -14,14 +14,14 @@ find_str_in_zshrc() {
 }
 
 append_zshrc() {
-  echo "$1" >>"$HOME/.zshrc"
+  echo "\n$1" >>"$HOME/.zshrc"
 }
 
 brew_install() {
   brew list "$1" || brew install "$1"
 }
 
-brew_cask() {
+brew_cask_install() {
   brew list --cask "$1" || brew install --cask "$1"
 }
 
@@ -31,10 +31,20 @@ install_terraform() {
 }
 
 install_ohmyzsh() {
-  if [ -d ~/.oh-my-zsh ]; then
-    echo "oh-my-zsh is installed"
-  else
+  if [ ! -d ~/.oh-my-zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
+}
+
+setup_ohmyzsh_config() {
+  append_zshrc 'export PATH="/usr/local/sbin:$PATH"'
+  append_zshrc 'setopt RM_STAR_WAIT'
+  append_zshrc 'COMPLETION_WAITING_DOTS="true"'
+  append_zshrc 'autoload -U compinit && compinit'
+
+  #custom config
+  if [[ ! "$(find_str_in_zshrc ___CUSTOM ZSH___)" ]]; then
+    cat "$SCRIPT_DIR/../resources/zsh/.custom_zshrc" >>"$HOME/.zshrc"
   fi
 }
 
@@ -46,7 +56,6 @@ install_zsh_plugin() {
 
 setup_git_config() {
   if [ ! -f "$HOME/.gitconfig" ]; then
-    echo "Info   | Setup   | git config"
     git config --global init.defaultBranch main
     git config --global user.email "$carrier_pigeon"
     git config --global user.name "Minh Tuan Nguyen"
@@ -61,13 +70,6 @@ setup_ssh_config() {
     ssh-keygen -t ed25519 -C "$carrier_pigeon" -f id_rsa_github_private
     ssh-keygen -t ed25519 -C "$carrier_pigeon" -f id_rsa_github_work
     cd -
-  fi
-}
-
-install_antigen() {
-  if [ ! -f "$HOME/.antigen/antigen.zsh" ]; then
-    mkdir -p "$HOME/.antigen"
-    curl -Ls git.io/antigen >"$HOME/.antigen/antigen.zsh"
   fi
 }
 
@@ -90,17 +92,18 @@ install_python() {
 }
 
 install_gui_tools() {
-  brew_cask docker
-  brew_cask coconutbattery
-  brew_cask iterm2
-  brew_cask firefox
-  brew_cask spotify
-  brew_cask intellij-idea
-  brew_cask intellij-idea-ce
-  brew_cask pycharm-ce
-  brew_cask lulu
-  brew_cask keeweb
-  brew_cask zoom
+  brew_cask_install docker
+  brew_cask_install iterm2
+  brew_cask_install spotify
+  brew_cask_install intellij-idea
+  brew_cask_install intellij-idea-ce
+  brew_cask_install pycharm-ce
+  brew_cask_install lulu
+  brew_cask_install keeweb
+
+  brew_cask_install firefox
+  brew_cask_install coconutbattery
+  brew_cask_install zoom
 }
 
 install_leiningen() {
@@ -162,6 +165,7 @@ install_essential_tools() {
 
 install_rust() {
   brew_install rustup
+  #cargo
   if [[ ! -f "$HOME/.cargo/bin/cargo" ]]; then
     curl https://sh.rustup.rs -sSf | sh
   fi
@@ -211,17 +215,24 @@ install_zsh_config() {
   fi
 }
 
+install_zsh-syntax-highlighting_plugin() {
+  install_zsh_plugin zsh-users zsh-syntax-highlighting
+  if [[ ! "$(find_str_in_zshrc zsh-syntax-highlighting.zsh)" ]]; then
+    append_zshrc 'source "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"'
+    append_zshrc 'ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)'
+    append_zshrc "ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')"
+  fi
+}
+
 install_zsh_tools() {
   install_zsh_config
-
   #
   install_ohmyzsh
-  install_antigen
-
+  setup_ohmyzsh_config
   #
+  install_zsh-syntax-highlighting_plugin
   install_zsh_plugin zsh-users zsh-completions
   install_zsh_plugin zsh-users zsh-autosuggestions
-  install_zsh_plugin zsh-users zsh-syntax-highlighting
   install_zsh_plugin chrissicool zsh-256color
   install_zsh_plugin joel-porquet zsh-dircolors-solarized
   install_zsh_plugin agkozak zsh-z
@@ -293,4 +304,4 @@ install_yubikey_tools
 install_aws_tools
 
 ###
-#install_gui_tools
+install_gui_tools
