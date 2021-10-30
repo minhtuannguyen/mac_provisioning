@@ -3,9 +3,10 @@ set -e
 set -x
 
 SCRIPT_DIR="$(
-  cd $(dirname "$0")
+  cd "$(dirname "$0")"
   pwd -P
 )"
+
 carrier_pigeon="minhtuannguyen2704@gmail.com"
 
 find_str_in_zshrc() {
@@ -131,23 +132,23 @@ install_jvm() {
   install_leiningen_profile
 }
 
-install_vim_config() {
+install_vim() {
+  brew_install vim
   if [ ! -f "$HOME/.vimrc" ]; then
     cp "$SCRIPT_DIR/../resources/vim/.vimrc" "$HOME/.vimrc"
   fi
 }
 
-install_others() {
+install_essential_tools() {
   brew_install curl
   brew_install wget
   brew_install jq
   brew_install node
   brew_install htop
+  brew_install watch
+  brew_install tldr
   brew_install the_silver_searcher
   brew_install postgresql
-
-  brew_install vim
-  install_vim_config
 }
 
 install_rust() {
@@ -184,7 +185,7 @@ install_git() {
   setup_ssh_config
 }
 
-install_fzf() {
+install_fzf_plugin() {
   if [[ ! "$(find_str_in_zshrc fzf.zsh)" ]]; then
     brew_install fzf
     $(brew --prefix)/opt/fzf/install
@@ -202,17 +203,20 @@ install_zsh_config() {
 }
 
 install_zsh_tools() {
-  install_ohmyzsh
   install_zsh_config
+
+  #
+  install_ohmyzsh
   install_antigen
+
+  #
   install_zsh_plugin zsh-users zsh-completions
   install_zsh_plugin zsh-users zsh-autosuggestions
   install_zsh_plugin zsh-users zsh-syntax-highlighting
   install_zsh_plugin chrissicool zsh-256color
   install_zsh_plugin joel-porquet zsh-dircolors-solarized
   install_zsh_plugin agkozak zsh-z
-
-  install_fzf
+  install_fzf_plugin
 }
 
 install_tmux_plugins_manager() {
@@ -230,32 +234,54 @@ install_tmux_config() {
 install_tmux_tools() {
   brew_install tmux
   install_tmux_config
+  #
   brew_install reattach-to-user-namespace
   brew_install urlview
   brew_install extract_url
+  #
   install_tmux_plugins_manager
 }
 
+install_xcode() {
+  # Download and install Command Line Tools
+  if [[ ! -x /usr/bin/gcc ]]; then
+    xcode-select --install
+  fi
+}
+
+install_home_brew() {
+  # Download and install Homebrew
+  if [[ ! -x /usr/local/bin/brew ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+}
+
+install_languages() {
+  install_python
+  install_rust
+  install_jvm
+}
+
 ############################ START ####################################
+#
+install_xcode
+install_home_brew
 
-# Download and install Command Line Tools
-if [[ ! -x /usr/bin/gcc ]]; then
-  xcode-select --install
-fi
+###
+install_essential_tools
 
-# Download and install Homebrew
-if [[ ! -x /usr/local/bin/brew ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-install_others
-install_python
-install_git
+###
 install_zsh_tools
 install_tmux_tools
-install_rust
+install_git
+install_vim
+
+###
+install_languages
+
+###
 install_yubikey_tools
 install_aws_tools
-install_jvm
 
+###
 install_gui_tools

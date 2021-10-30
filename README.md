@@ -1,7 +1,7 @@
 # Usage
 
 ```
-./scrips/provisioning.sh
+./scripts/provisioning.sh
 ```
 
 # Manual steps to do
