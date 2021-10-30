@@ -36,7 +36,15 @@ install_ohmyzsh() {
   fi
 }
 
+read_resource_content() {
+  cat "$SCRIPT_DIR/../resources/$1"
+}
+
 setup_ohmyzsh_config() {
+  #set plugins
+  plugins_list=$(read_resource_content zsh/.plugins_zshrc)
+  sed -i '' -e "s/plugins=(git)/$plugins_list/" "$HOME/.zshrc"
+
   append_zshrc 'export PATH="/usr/local/sbin:$PATH"'
   append_zshrc 'setopt RM_STAR_WAIT'
   append_zshrc 'COMPLETION_WAITING_DOTS="true"'
@@ -44,7 +52,7 @@ setup_ohmyzsh_config() {
 
   #custom config
   if [[ ! "$(find_str_in_zshrc ___CUSTOM ZSH___)" ]]; then
-    cat "$SCRIPT_DIR/../resources/zsh/.custom_zshrc" >>"$HOME/.zshrc"
+    read_resource_content zsh/.custom_zshrc >>"$HOME/.zshrc"
   fi
 }
 
@@ -206,10 +214,6 @@ install_fzf_plugin() {
 }
 
 install_zsh_config() {
-  if [ ! -f "$HOME/.zshrc" ]; then
-    cp "$SCRIPT_DIR/../resources/zsh/.zshrc" "$HOME/.zshrc"
-  fi
-
   if [ ! -d "$HOME/.config/zsh/custom_config/" ]; then
     mkdir -p "$HOME/.config/zsh/custom_config/"
   fi

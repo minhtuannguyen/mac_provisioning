@@ -1,0 +1,1 @@
+plugins=(zsh-z zsh-completions zsh-autosuggestions brew urltools git-extras zsh-syntax-highlighting tig osx lein encode64 docker colored-man-pages colorize zsh-256color zsh-dircolors-solarized fzf git)
