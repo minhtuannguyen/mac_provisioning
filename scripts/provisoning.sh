@@ -13,8 +13,12 @@ find_str_in_zshrc() {
   grep "$1" <"$HOME/.zshrc"
 }
 
+append_line_to_file() {
+  printf "\n%s\n" "$1" >>"$2"
+}
+
 append_zshrc() {
-  printf "\n%s\n" "$1" >>"$HOME/.zshrc"
+  append_line_to_file "$1" "$HOME/.zshrc"
 }
 
 brew_install() {
@@ -145,6 +149,7 @@ install_jenv() {
 install_jvm() {
   #java
   brew_install openjdk@11
+  brew_install gradle
   install_jenv
   set_jdk_path
 
@@ -175,25 +180,6 @@ install_essential_tools() {
   brew_install shellcheck
 }
 
-install_rust() {
-  brew_install rustup
-  #cargo
-  if [[ ! -f "$HOME/.cargo/bin/cargo" ]]; then
-    curl https://sh.rustup.rs -sSf | sh
-  fi
-}
-
-install_aws_tools() {
-  install_terraform
-  install_swamp
-
-  #awscli
-  brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
-  if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
-    append_zshrc 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"'
-  fi
-}
-
 install_yubikey_tools() {
   brew_install ykman
 
@@ -202,12 +188,52 @@ install_yubikey_tools() {
   fi
 }
 
+install_cargo() {
+  if ! command -v cargo &>/dev/null; then
+    curl https://sh.rustup.rs -sSf | sh
+  fi
+}
+
+install_rust() {
+  brew_install rustup
+  install_cargo
+}
+
+install_awscli_v1() {
+  brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
+  if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
+    append_zshrc 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"'
+  fi
+}
+
+install_aws_config() {
+  if [ ! -d "$HOME/.aws" ]; then
+    mkdir -p "$HOME/.aws"
+    append_line_to_file "[default]" "$HOME/.aws/config"
+    append_line_to_file "region = eu-central-1" "$HOME/.aws/config"
+  fi
+}
+
+install_aws_tools() {
+  install_terraform
+  install_swamp
+  install_awscli_v1
+  install_aws_config
+}
+
+install_tig() {
+  brew_install tig
+  if [ ! -d "$HOME/.tigrc" ]; then
+    cp "$SCRIPT_DIR/../resources/tig/.tigrc" "$HOME/.tigrc"
+  fi
+}
+
 install_git() {
   brew_install git
-  brew_install tig
   brew_install openssh
   setup_git_config
   setup_ssh_config
+  install_tig
 }
 
 install_fzf_plugin() {
@@ -279,8 +305,7 @@ install_xcode() {
 
 install_home_brew() {
   # Download and install Homebrew
-  if ! command -v brew &> /dev/null
-  then
+  if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }
