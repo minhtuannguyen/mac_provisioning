@@ -23,14 +23,14 @@ diving deeply in those codes, I prefer to write this script on my own. This scri
 
 # Usage
 
-##Installation
+## Installation
 
-```
+```bash
  sh -c "$(curl -fsSL https://raw.githubusercontent.com/minhtuannguyen/mac_provisioning/main/scripts/install.sh)"
 ```
 
-##How to use
-```
+## How to use
+```bash
 #to provision
 macpro
 
