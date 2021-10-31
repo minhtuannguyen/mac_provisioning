@@ -49,14 +49,13 @@ setup_ohmyzsh_config() {
   plugins_list=$(read_resource_content zsh/.plugins_zshrc)
   sed -i '' -e "s/plugins=(git)/$plugins_list/" "$HOME/.zshrc"
 
-  append_zshrc 'export PATH="/usr/local/sbin:$PATH"'
-  append_zshrc 'setopt RM_STAR_WAIT'
-  append_zshrc 'COMPLETION_WAITING_DOTS="true"'
-  append_zshrc 'autoload -U compinit && compinit'
-
   #add custom config
   if [[ ! "$(find_str_in_zshrc ___CUSTOM ZSH___)" ]]; then
     read_resource_content zsh/.custom_zshrc >>"$HOME/.zshrc"
+    append_zshrc 'export PATH="/usr/local/sbin:$PATH"'
+    append_zshrc 'setopt RM_STAR_WAIT'
+    append_zshrc 'COMPLETION_WAITING_DOTS="true"'
+    append_zshrc 'autoload -U compinit && compinit'
   fi
 }
 
