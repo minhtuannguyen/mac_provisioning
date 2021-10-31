@@ -7,7 +7,8 @@ SCRIPT_DIR="$(
   pwd -P
 )"
 
-carrier_pigeon="minhtuannguyen2704@gmail.com"
+carrier_pigeon=${1:-foo.bar@gmail.com}
+user_name=${2:-Mueller}
 
 find_str_in_zshrc() {
   grep "$1" <"$HOME/.zshrc"
@@ -69,7 +70,7 @@ setup_git_config() {
   if [ ! -f "$HOME/.gitconfig" ]; then
     git config --global init.defaultBranch main
     git config --global user.email "$carrier_pigeon"
-    git config --global user.name "Minh Tuan Nguyen"
+    git config --global user.name "$user_name"
     git config --global pull.rebase true
   fi
 }
