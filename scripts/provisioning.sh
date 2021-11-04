@@ -90,12 +90,12 @@ setup_ssh_config() {
 
 install_swamp() {
   if ! command -v swamp &>/dev/null; then
-     if [[ "$CPU" == "arm" ]]; then
-        curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/opt/homebrew/bin/swamp
-        chmod +x /opt/homebrew/bin/swamp
-     else
-        curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
-        chmod +x /usr/local/bin/swamp
+    if [[ "$CPU" == "arm" ]]; then
+      curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/opt/homebrew/bin/swamp
+      chmod +x /opt/homebrew/bin/swamp
+    else
+      curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
+      chmod +x /usr/local/bin/swamp
     fi
   fi
 }
@@ -140,7 +140,7 @@ install_leiningen() {
 }
 
 set_jdk_path() {
-  if [[ ! "$CPU" == 'arm' &&  "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
+  if [[ ! "$CPU" == 'arm' && ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
     append_zshrc 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"'
   fi
 }
