@@ -178,6 +178,7 @@ install_essential_tools() {
   brew_install postgresql
   brew_install mas
   brew_install shellcheck
+  brew install xdotool
 }
 
 install_yubikey_tools() {
