@@ -2,6 +2,8 @@
 set -e
 set -x
 
+CPU=$(uname -p)
+
 SCRIPT_DIR="$(
   cd "$(dirname "$0")"
   pwd -P
@@ -87,9 +89,14 @@ setup_ssh_config() {
 }
 
 install_swamp() {
-  if [[ ! -x /usr/local/bin/swamp ]]; then
-    curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
-    chmod +x /usr/local/bin/swamp
+  if ! command -v swamp &>/dev/null; then
+     if [[ "$CPU" == "arm" ]]; then
+        curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/opt/homebrew/bin/swamp
+        chmod +x /opt/homebrew/bin/swamp
+     else
+        curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
+        chmod +x /usr/local/bin/swamp
+    fi
   fi
 }
 
@@ -133,7 +140,7 @@ install_leiningen() {
 }
 
 set_jdk_path() {
-  if [[ ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
+  if [[ ! "$CPU" == 'arm' &&  "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
     append_zshrc 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"'
   fi
 }
@@ -185,8 +192,12 @@ install_essential_tools() {
 install_yubikey_tools() {
   brew_install ykman
 
-  if [[ ! -x /usr/local/bin/lmfa ]]; then
-    cp "$SCRIPT_DIR/../resources/yubikey/lmfa" /usr/local/bin/lmfa
+  if ! command -v lmfa &>/dev/null; then
+    if [[ "$CPU" == "arm" ]]; then
+      cp "$SCRIPT_DIR/../resources/yubikey/lmfa" /opt/homebrew/bin/lmfa
+    else
+      cp "$SCRIPT_DIR/../resources/yubikey/lmfa" /usr/local/bin/lmfa
+    fi
   fi
 }
 
@@ -309,6 +320,9 @@ install_home_brew() {
   # Download and install Homebrew
   if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  if [[ "$CPU" == 'arm' && ! "$(find_str_in_zshrc homebrew)" ]]; then
     append_zshrc 'export PATH="/opt/homebrew/bin:$PATH"'
   fi
 }
