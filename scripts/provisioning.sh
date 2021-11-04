@@ -114,8 +114,6 @@ install_python() {
 install_gui_tools() {
   brew_cask_install docker
   brew_cask_install iterm2
-  brew_cask_install spotify
-  brew_cask_install intellij-idea
   brew_cask_install intellij-idea-ce
   brew_cask_install pycharm-ce
   brew_cask_install lulu
@@ -147,7 +145,10 @@ set_jdk_path() {
 
 install_jenv() {
   brew_install jenv
-  jenv add /usr/local/opt/openjdk@11/
+  if [[ ! "$CPU" == "arm" ]]; then
+    jenv add /usr/local/opt/openjdk@11/
+  fi
+
   if [[ ! "$(find_str_in_zshrc jenv)" ]]; then
     append_zshrc 'eval "$(jenv init -)"'
   fi
@@ -214,8 +215,10 @@ install_rust() {
 
 install_awscli_v1() {
   brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
-  if [[ ! "$(find_str_in_zshrc awscli@1)" ]]; then
+  if [[ ! "$CPU" == 'arm' && ! "$(find_str_in_zshrc awscli@1)" ]]; then
     append_zshrc 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"'
+  else
+    brew link awscli@1 --force
   fi
 }
 
