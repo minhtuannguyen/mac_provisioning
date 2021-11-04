@@ -179,6 +179,7 @@ install_essential_tools() {
   brew_install mas
   brew_install shellcheck
   brew install xdotool
+  brew_install shfmt
 }
 
 install_yubikey_tools() {
@@ -308,6 +309,7 @@ install_home_brew() {
   # Download and install Homebrew
   if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    append_zshrc 'export PATH="/opt/homebrew/bin:$PATH"'
   fi
 }
 

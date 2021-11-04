@@ -11,7 +11,7 @@ main() {
     read -p "Enter your name:" user_name
 
     printf "alias macpro='%s/scripts/provisioning.sh %s %s'\n" "$CODE_REPO_LOCATION" "$user_email" "$user_name" >>"$HOME/.zshrc"
-    printf "alias macpro-update='cd %s && git pull && cd -'\n" "$CODE_REPO_LOCATION" >>"$HOME/.zshrc"
+    printf "alias macpro-update='cd %s && git reset --hard && git pull && cd -'\n" "$CODE_REPO_LOCATION" >>"$HOME/.zshrc"
 
     echo "mac_provisioning is installed!"
   fi
