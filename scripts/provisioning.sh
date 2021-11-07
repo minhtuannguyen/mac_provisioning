@@ -345,6 +345,10 @@ install_mas() {
 install_from_appstore() {
   #Magnet
   install_mas 441258766
+  #Boop
+  install_mas 1518425043
+  #AdGuard for Safari
+  install_mas 1440147259
 }
 
 ############################ START ####################################

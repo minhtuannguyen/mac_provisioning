@@ -1,0 +1,84 @@
+{
+    "protocol-version": "1.0",
+    "general-settings": {
+        "app-language": "en-GB",
+        "allow-acceptable-ads": false,
+        "show-app-updated-disabled": false,
+        "update-filters-period": 48,
+        "show-tray-icon": true,
+        "launch-at-login": false,
+        "verbose-logging": false,
+        "hardware-acceleration-disabled": false
+    },
+    "filters": {
+        "enabled-groups": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            0
+        ],
+        "enabled-filters": [
+            208,
+            14,
+            3,
+            4,
+            6,
+            122,
+            123,
+            201,
+            210,
+            214,
+            226,
+            101,
+            207,
+            215,
+            242,
+            15,
+            204,
+            225,
+            229,
+            241,
+            250
+        ],
+        "custom-filters": [
+            {
+                "filterId": 1000,
+                "customUrl": "https://www.privacy-handbuch.de/download/ublock-local-url-blocklist.txt",
+                "enabled": true,
+                "title": "https://www.privacy-handbuch.de/download/ublock-local-url-blocklist.txt",
+                "trusted": true
+            },
+            {
+                "filterId": 1001,
+                "customUrl": "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
+                "enabled": true,
+                "title": "Fanboy's Annoyance List",
+                "trusted": true
+            },
+            {
+                "filterId": 1003,
+                "customUrl": "https://cdn.staticaly.com/gh/yourduskquibbles/webannoyances/master/ultralist.txt",
+                "enabled": true,
+                "title": "Web Annoyances Ultralist - Ad Placeholder Filters",
+                "trusted": true
+            }
+        ],
+        "user-filter": {
+            "enabled": true,
+            "rules": "www.formel1.de##script:contains(teaser)\n\n! 12.2.2019 https://www.formel1.de\nwww.formel1.de##div.container:nth-of-type(1)\n||www.formel1.de/public/video/ready/teaser*$image\nwww.formel1.de##div.mt20.col-xs-4:nth-of-type(2)\nwww.formel1.de##.EIOqcpIAT\n\n! 14.4.2019 https://www.formel1.de\n||www.formel1.de/public/news/513686975885/*.jpg$image\n||www.formel1.de/public/video/ready/teaser_big/*.jpg$image\n||www.formel1.de/public/video/ready/small/*.jpg$image\n\n! 25.4.2019 https://www.formel1.de\nwww.formel1.de##.KWyFbrD\n\n! 27.4.2019 https://www.formel1.de\nwww.formel1.de##[src=\"/public/bilder/small/*.jpg\"]\n||www.formel1.de/public/bilder/small/*.jpg$image\n\n! 28.4.2019 https://www.formel1.de\nwww.formel1.de###*\n",
+            "disabled-rules": ""
+        },
+        "allowlist": {
+            "enabled": true,
+            "inverted": false,
+            "domains": [
+                "www.otto.de"
+            ],
+            "inverted-domains": []
+        }
+    }
+}
