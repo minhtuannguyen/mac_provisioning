@@ -349,6 +349,8 @@ install_from_appstore() {
   install_mas 1518425043
   #AdGuard for Safari
   install_mas 1440147259
+  #KeeWeb Connect
+  install_mas 1565748094
 }
 
 ############################ START ####################################
