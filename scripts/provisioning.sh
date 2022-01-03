@@ -158,6 +158,7 @@ install_jvm() {
   #java
   brew_install openjdk@11
   brew_install gradle
+  brew_install mvn
   install_jenv
   set_jdk_path
 
