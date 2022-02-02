@@ -189,6 +189,7 @@ install_essential_tools() {
   brew_install shellcheck
   brew install xdotool
   brew_install shfmt
+  brew_install coreutils
 }
 
 install_yubikey_tools() {
