@@ -215,15 +215,6 @@ install_rust() {
   install_cargo
 }
 
-install_awscli_v1() {
-  brew list awscli@1 || brew install awscli@1 && brew pin awscli@1
-  if [[ ! "$CPU" == 'arm' && ! "$(find_str_in_zshrc awscli@1)" ]]; then
-    append_zshrc 'export PATH="/usr/local/opt/awscli@1/bin:$PATH"'
-  else
-    brew link awscli@1 --force
-  fi
-}
-
 install_aws_config() {
   if [ ! -d "$HOME/.aws" ]; then
     mkdir -p "$HOME/.aws"
@@ -235,7 +226,7 @@ install_aws_config() {
 install_aws_tools() {
   install_terraform
   install_swamp
-  install_awscli_v1
+  brew_install awscli
   install_aws_config
 }
 
