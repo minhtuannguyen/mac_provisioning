@@ -164,6 +164,7 @@ install_jvm() {
 
   #clojure
   brew_install clojure
+  brew_install borkdude/brew/babashka
   install_leiningen
 }
 
