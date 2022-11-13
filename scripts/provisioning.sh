@@ -112,7 +112,6 @@ install_python() {
 }
 
 install_gui_tools() {
-  brew_cask_install docker
   brew_cask_install iterm2
   brew_cask_install intellij-idea-ce
   brew_cask_install pycharm-ce
@@ -173,6 +172,11 @@ install_vim() {
   if [ ! -f "$HOME/.vimrc" ]; then
     cp "$SCRIPT_DIR/../resources/vim/.vimrc" "$HOME/.vimrc"
   fi
+}
+
+install_docker() {
+  brew_install docker
+  brew_install colima
 }
 
 install_essential_tools() {
@@ -360,6 +364,7 @@ install_zsh_tools
 install_tmux_tools
 install_git
 install_vim
+install_docker
 
 ###
 install_languages
