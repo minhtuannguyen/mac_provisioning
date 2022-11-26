@@ -195,6 +195,7 @@ install_essential_tools() {
   brew install xdotool
   brew_install shfmt
   brew_install coreutils
+  brew_install graphviz
 }
 
 install_yubikey_tools() {
