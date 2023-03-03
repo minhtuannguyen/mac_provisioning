@@ -136,12 +136,6 @@ install_leiningen() {
   fi
 }
 
-set_jdk_path() {
-  if [[ ! "$CPU" == 'arm' && ! "$(find_str_in_zshrc openjdk@11/bin)" ]]; then
-    append_zshrc 'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"'
-  fi
-}
-
 install_jenv() {
   brew_install jenv
   if [[ ! "$CPU" == "arm" ]]; then
@@ -155,11 +149,10 @@ install_jenv() {
 
 install_jvm() {
   #java
-  brew_install openjdk@11
+  brew_install openjdk
   brew_install gradle
   brew_install mvn
   install_jenv
-  set_jdk_path
 
   #clojure
   brew_install clojure
@@ -344,12 +337,12 @@ install_mas() {
 install_from_appstore() {
   #Magnet
   install_mas 441258766
-  #Boop
-  install_mas 1518425043
   #AdGuard for Safari
   install_mas 1440147259
   #KeeWeb Connect
   install_mas 1565748094
+  #Boop
+  #install_mas 1518425043
 }
 
 ############################ START ####################################
