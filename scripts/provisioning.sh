@@ -88,18 +88,6 @@ setup_ssh_config() {
   fi
 }
 
-install_swamp() {
-  if ! command -v swamp &>/dev/null; then
-    if [[ "$CPU" == "arm" ]]; then
-      curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/opt/homebrew/bin/swamp
-      chmod +x /opt/homebrew/bin/swamp
-    else
-      curl -L "https://github.com/otto-de/swamp/releases/download/v0.11.0-otto/swamp-darwin-amd64" >/usr/local/bin/swamp
-      chmod +x /usr/local/bin/swamp
-    fi
-  fi
-}
-
 ###
 
 install_python() {
@@ -224,7 +212,6 @@ install_aws_config() {
 
 install_aws_tools() {
   install_terraform
-  install_swamp
   brew_install awscli
   install_aws_config
 }
